@@ -1,0 +1,110 @@
+# serverless.yml
+service: storage
+frameworkVersion: '2'
+
+custom:
+  bucket: binary.strage.test
+  s3:
+    host: localhost
+    directory: ./tmp
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ap-northeast-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - s3:*
+      Resource:
+        - "arn:aws:s3:::${self:custom.bucket}/*"
+        - "arn:aws:s3:::${self:custom.bucket}"
+    # - Effect: "Allow"
+    #   Action:
+    #     - "s3:ListBucket"
+    #   Resource:
+    #     - "arn:aws:s3:::${self:custom.bucket}"
+    # - Effect: "Allow"
+    #   Action:
+    #     - "s3:PutObject"
+    #     - "s3:GetObject"
+    #     - "s3:DeleteObject"
+    #   Resource:
+    #     - "arn:aws:s3:::${self:custom.bucket}/*"
+
+  endpointType: REGIONAL
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+    # minimumCompressionSize: 1024
+  environment:
+    BUCKET: ${self:custom.bucket}
+
+functions:
+  getForm:
+    handler: handler.getForm
+    events:
+      - http:
+          method: get
+          path: strage/getForm
+          cors: true
+  upload:
+    handler: handler.upload
+    events:
+      - http:
+          method: post
+          path: strage/upload
+          cors: true
+  uploadForm:
+    handler: handler.uploadForm
+    events:
+      - http:
+          method: get
+          path: strage/uploadForm
+          cors: true
+  uploadUrl:
+    handler: handler.uploadUrl
+    events:
+      - http:
+          method: get
+          path: strage/uploadUrl/{fileName}
+          cors: true
+  downloadUrl:
+    handler: handler.downloadUrl
+    events:
+      - http:
+          method: get
+          path: strage/downloadUrl/{fileName}
+          cors: true
+  list:
+    handler: handler.list
+    events:
+      - http:
+          method: get
+          path: strage/list
+          cors: true
+  remove:
+    handler: handler.remove
+    events:
+      - http:
+          method: delete
+          path: strage/remove/{fileName}
+          cors: true
+
+resources:
+  Resources:
+    StorageBucket:
+      Type: "AWS::S3::Bucket"
+      Properties:
+        BucketName: ${self:custom.bucket}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders: ['*']
+              AllowedMethods: [GET, PUT]
+              AllowedOrigins: ['*']
+              
+plugins:
+  - serverless-offline
+  - serverless-s3-local

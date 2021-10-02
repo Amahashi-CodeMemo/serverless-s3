@@ -1,0 +1,31 @@
+{
+  "name": "storage",
+  "version": "1.0.0",
+  "description": "Serverless Framework を使用して Amazon Simple Storage Service（S3） と ローカル動作をサポートした NpdeJSのExampleです",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove",
+    "offline": "sls offline start",
+    "debug": "NODE_OPTIONS='--inspect' sls offline start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.993.0",
+    "busboy": "^0.3.1"
+  },
+  "devDependencies": {
+    "serverless-offline": "^8.2.0",
+    "serverless-s3-local": "^0.6.20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amahashi-CodeMemo/serverless-s3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Amahashi-CodeMemo/serverless-s3/issues"
+  },
+  "homepage": "https://github.com/Amahashi-CodeMemo/serverless-s3#readme"
+}
