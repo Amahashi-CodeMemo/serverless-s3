@@ -14,7 +14,7 @@ https://www.youtube.com/watch?v=Ho6EdGjJn4g
 # Installation
 ```bash
 $ npm install
-$ sls dynamodb install
+$ sls plugin install --name serverless-s3-local
  ```
 # Author
 - Amahashi-CodeMemo
